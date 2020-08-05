@@ -41,21 +41,29 @@
     .content
     .querySelector('.picture');
 
-
   var picturesContainer = document.querySelector('.pictures');
 
-  function renderPhotoList(num) {
-    for (var i = 0; i < num; i++) {
+  function createPhotoArray () {
+    var photoArray = [];
+    for (var i = 0; i < MAX_PHOTO_QUANTITY; i++) {
       var photoElement = userPhotoTemplate.cloneNode(true);
 
       photoElement.querySelector('.picture__img').src = 'photos/' + (i + 1) + '.jpg';
-      photoElement.querySelector('.picture__comments').textContent = getRandomArrayElement(messages);
+      //photoElement.querySelector('.picture__comments').textContent = getRandomArrayElement(messages);
+      photoElement.querySelector('.picture__comments').textContent = getRandomNumber(MIN_LIKES, MAX_LIKES)
       photoElement.querySelector('.picture__likes').textContent = getRandomNumber(MIN_LIKES, MAX_LIKES);
 
-      picturesContainer.appendChild(photoElement);
+      photoArray.push(photoElement);
     }
+    return photoArray;
   }
 
-  renderPhotoList(MAX_PHOTO_QUANTITY);
+  function renderPhotoCollection (arr) {
+    arr.forEach(function(item, i, arr) {
+      picturesContainer.appendChild(item);
+    });
+  }
+
+  renderPhotoCollection(createPhotoArray());
 
 }) ();
