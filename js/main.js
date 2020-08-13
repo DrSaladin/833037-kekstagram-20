@@ -190,14 +190,91 @@
 
 
 
+const inputLevel = document.querySelector('.effect-level__value');
+var inputLevelValue = inputLevel.value;
+
+const effectLevel = document.querySelector('.effect-level');
+
+const mainLevelLine = document.querySelector('.effect-level__line');
+
+const filterLevelPin = document.querySelector('.effect-level__pin');
+const levelIndicator = document.querySelector('.effect-level__depth');
+levelIndicator.sttyle = '';
+var effectLevelWidth = effectLevel.style.width;
+console.log(effectLevel.style.width);
+
+var levelBorders = {
+  right: effectLevel.offsetRight,
+  left: 0,
+}
+
+
+
+filterLevelPin.addEventListener('mousedown', function (evt) {
+  evt.preventDefault();
+
+  var startCoords = {
+    y: evt.clientY
+  };
+
+  var onMouseMove = function (moveEvt) {
+    moveEvt.preventDefault();
+
+    var shift = {
+      x: startCoords.x - moveEvt.clientX,
+    };
+
+    startCoords = {
+      x: moveEvt.clientX,
+    };
+
+    var leftPosition = filterLevelPin.offsetLeft - shift.x;
+    console.log(levelBorders.right);
+
+    if (leftPosition < levelBorders.left) {
+        filterLevelPin.style.left = (levelBorders.left) + 'px';
+      } else if (leftPosition > levelBorders.right) {
+        filterLevelPin.style.left = (levelBorders.right) + 'px';
+      } else {
+        filterLevelPin.style.left = leftPosition + 'px';
+      }
+
+    filterLevelPin.style.left = (filterLevelPin.offsetLeft - shift.x) + 'px';
+    levelIndicator.style.width = (filterLevelPin.offsetLeft - shift.x) + 'px';
+    inputLevelValue = (filterLevelPin.offsetLeft - shift.x);
+    console.log(inputLevelValue);
+  };
+
+  var onMouseUp = function (upEvt) {
+    upEvt.preventDefault();
+
+    document.removeEventListener('mousemove', onMouseMove);
+    document.removeEventListener('mouseup', onMouseUp);
+  };
+
+  document.addEventListener('mousemove', onMouseMove);
+  document.addEventListener('mouseup', onMouseUp);
+
+});
 
 
 
 
 
+
+
+
+
+
+
+
+  /* Валидация через регулярные выражения
   let m;
   const regex = /^#[a-zA-Zа-яА-Я\d]{0,19}$/g;
   var str = ``;
+
+  console.log(regex.test('#121ksdsgjergeg1'));
+  console.log(regex.test('1121ksdsgjergeg1'));
 
   //inputHashtags.value
 
@@ -212,6 +289,6 @@
     m.forEach((match, groupIndex) => {
       console.log(`Found match, group ${groupIndex}: ${match}`);
     });
-  }
+  } */
 
 }) ();
